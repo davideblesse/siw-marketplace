@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>I miei annunci</title>
+
+  <!-- Stili -->
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/annunci.css}">
+</head>
+
+<body class="annunci-page">
+
+  <!-- Header per utente autenticato -->
+  <div th:insert="~{fragments/header-user :: body}"></div>
+
+  <!-- Pulsante “nuovo annuncio” -->
+  <div style="text-align:right;margin:1.2rem 1.5rem 0;">
+    <a class="view-details-button" th:href="@{/user/annuncio-form}">＋ Nuovo annuncio</a>
+  </div>
+
+  <main class="annunci">
+
+    <!-- Nessun annuncio -->
+    <p th:if="${annunci.empty}" class="annunci__empty">
+      Non hai ancora inserito annunci.
+    </p>
+
+    <!-- Griglia annunci -->
+    <section th:unless="${annunci.empty}" class="annunci__list" >
+
+      <article th:each="annuncio : ${annunci}" class="annuncio-card">
+
+        <!-- Immagine di copertina -->
+        <div class="annuncio-card__image">
+          <img th:if="${!#lists.isEmpty(annuncio.images)}"
+               th:src="@{${annuncio.images[0].name}}"
+               th:alt="'Immagine di ' + ${annuncio.title}">
+          <img th:if="${#lists.isEmpty(annuncio.images)}"
+               src="/images/placeholder.jpg"
+               alt="Nessuna immagine">
+        </div>
+
+        <!-- Corpo carta -->
+        <div class="annuncio-card__body">
+
+          <h2 class="annuncio-card__title"
+              th:text="${annuncio.title}">Titolo</h2>
+
+          <p  class="annuncio-card__price"
+              th:text="${annuncio.price} + ' €'">0 €</p>
+
+          <!-- Azioni -->
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+
+            <!-- Dettagli pubblico -->
+            <a class="view-details-button"
+               th:href="@{'/annunci/' + ${annuncio.id}}">Dettagli</a>
+
+            <!-- Modifica -->
+            <a class="view-details-button"
+               th:href="@{'/user/annunci/' + ${annuncio.id} + '/edit'}">Modifica</a>
+
+            <!-- Elimina -->
+            <form th:action="@{'/user/annunci/' + ${annuncio.id} + '/delete'}"
+                  method="post"
+                  th:object="${annuncio}"
+                  onsubmit="return confirm('Eliminare definitivamente l\'annuncio?');">
+              <!-- token CSRF -->
+              <input type="hidden"
+                     th:name="${_csrf.parameterName}"
+                     th:value="${_csrf.token}">
+              <button type="submit"
+                      class="view-details-button">
+                Elimina
+              </button>
+            </form>
+
+          </div><!-- /azioni -->
+        </div><!-- /body -->
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div th:insert="~{fragments/footer :: body}"></div>
+</body>
+</html>

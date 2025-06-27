@@ -1,0 +1,86 @@
+.register-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;      /* body full-height */
+}
+/* 2) L’area centrale del register prende tutto lo spazio rimanente */
+.register-page {
+  flex: 1;                /* tra header e footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f2f2;
+  padding: 2rem 0;
+}
+
+/* 3) Reset box-sizing e margin/padding SOLO qui */
+.register-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 4) Stili del contenitore bianco */
+.register-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 360px;
+}
+
+.register-form h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.login-form h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+.input-group {
+  margin-bottom: 1rem;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #555;
+}
+.input-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.login-prompt {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+.login-prompt .register-link {
+  color: #007bff;
+  text-decoration: none;
+}
+.login-prompt .register-link:hover {
+  text-decoration: underline;
+}

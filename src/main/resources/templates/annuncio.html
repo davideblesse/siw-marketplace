@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/annuncio.css">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+
+</head>
+<body>
+    <div th:insert="~{fragments/header :: body}"></div>
+    <div class="annuncio-detail">
+        <div th:if="${!#lists.isEmpty(annuncio.images)}" class="gallery">
+        <img th:each="image : ${annuncio.images}"
+            th:src="@{${image.name}}"
+            th:alt="'Immagine di ' + ${annuncio.title}" />
+        </div>
+        <div th:if="${#lists.isEmpty(annuncio.images)}" class="gallery">
+        <img src="/images/placeholder.jpg" alt="Nessuna immagine" />
+        </div>
+
+        <div th:text="${annuncio.title}" class="annuncio-title">
+        Titolo dell'annuncio
+        </div>
+        <div th:text="${annuncio.price}" class="annuncio-price">
+        Prezzo dell'annuncio
+        </div>
+    </div>
+    <section class="comments">
+    <div class="comment-card" th:each="commento : ${annuncio.commenti}">
+        <div class="comment-card__author"
+            th:text="${commento.user.name + ' ' + commento.user.surname}">
+        Nome Cognome
+        </div>
+        <div class="comment-card__text" th:text="${commento.comment}">
+        Testo del commento
+        </div>
+        <div class="comment-card__offer" th:text="${commento.offer + ' €'}">
+        Offerta
+        </div>
+    </div>
+    </section>
+<div th:insert="~{fragments/footer :: body}"></div>
+</body>
+</html>

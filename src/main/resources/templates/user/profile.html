@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Il mio profilo</title>
+
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/profile.css}">
+
+  <!-- opzionale: profilo.css -->
+</head>
+<body>
+  <!-- header per utenti loggati -->
+  <div th:insert="~{fragments/header-user :: body}"></div>
+
+  <main class="profile-page">
+    <section class="profile-card">
+      <h2 th:text="${user.name + ' ' + user.surname}">Nome Cognome</h2>
+      <p>Email: <span th:text="${user.email}">email@example.com</span></p>
+
+      <!-- Azioni rapide -->
+      <div class="profile-actions">
+        <a class="btn"  th:href="@{/user/annuncio-form}">➕ Nuovo annuncio</a>
+        <a class="btn"  th:href="@{/user/annunci}">📄 I miei annunci</a>
+      </div>
+    </section>
+  </main>
+
+  <div th:insert="~{fragments/footer :: body}"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title th:text="${editMode} ? 'Modifica annuncio' : 'Nuovo annuncio'">Annuncio</title>
+  <link rel="stylesheet" th:href="@{/css/annuncio-form.css}">
+</head>
+<body>
+
+  <header>
+    <h1 th:text="${editMode} ? 'Modifica annuncio' : 'Crea annuncio'">Annuncio</h1>
+  </header>
+
+  <!-- ①  ACTION dinamica  -->
+  <form  th:object="${annuncio}"
+         th:action="${editMode} ?
+            @{|/user/annunci/${annuncio.id}/edit|} :
+            @{/user/annunci}"
+         method="post"
+         enctype="multipart/form-data"
+         class="filter-form">
+
+    <!-- (facoltativo) id nascosto – utile se in futuro usi PUT -->
+    <input type="hidden" th:if="${editMode}" th:field="*{id}"/>
+
+    <!-- titolo -->
+    <div>
+      <label for="title">Titolo:</label>
+      <input id="title" type="text" th:field="*{title}">
+      <div th:errors="*{title}"></div>
+    </div>
+
+    <!-- prezzo -->
+    <div>
+      <label for="price">Prezzo (€):</label>
+      <input id="price" type="number" min="0" th:field="*{price}">
+      <div th:errors="*{price}"></div>
+    </div>
+
+    <!-- categoria -->
+    <div>
+      <label for="categoria">Categoria:</label>
+      <select id="categoria" th:field="*{categoria}">
+        <option th:each="c : ${categorie}"
+                th:value="${c}"
+                th:text="${#strings.capitalize(c.name().toLowerCase())}">
+        </option>
+      </select>
+    </div>
+
+    <!-- immagini: solo in creazione o se vuoi poterle aggiungere -->
+    <div>
+      <label for="images">Immagini:</label>
+      <input id="images" name="imageFiles" type="file" accept="image/*" multiple
+             th:disabled="${editMode}">   <!-- opzionale: disabilita in edit -->
+    </div>
+
+    <button type="submit" th:text="${editMode} ? 'Aggiorna' : 'Salva'">Salva</button>
+  </form>
+
+  <footer>
+    <a th:href="@{/user/annunci}">← Torna ai miei annunci</a>
+  </footer>
+</body>
+</html>

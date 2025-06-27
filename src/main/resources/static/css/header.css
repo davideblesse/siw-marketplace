@@ -1,0 +1,42 @@
+/* layout di base */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;    /* sfondo chiaro */
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* brand/app name */
+.navbar__brand .navbar__link {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333333;
+}
+
+/* menu di navigazione */
+.navbar__menu {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar__link {
+  text-decoration: none;
+  color: #555555;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.navbar__link:hover,
+.navbar__link:focus,
+.navbar__link.active {
+  color: #007acc;  /* colore di evidenza */
+}

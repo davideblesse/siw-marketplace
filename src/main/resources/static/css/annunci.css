@@ -1,0 +1,149 @@
+/* Scope RESET solo dentro .annunci-page */
+.annunci-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Solo per la pagina annunci, non per header/footer */
+.annunci-page {
+  font-family: var(--font-stack);
+  background: var(--section-bg);
+  color: var(--title-color);
+  line-height: 1.5;
+}
+
+/* Header e footer ora usano header.css e footer.css, tolgo da qui */
+:root {
+  --border-color: #ddd;
+  --radius: 8px;
+  --gap: 1.5rem;
+  --bg-color: #fff;
+  --section-bg: #f2f5f8;
+  --title-color: #333;
+  --price-color: #008000;
+  --font-stack: "Segoe UI", Arial, sans-serif;
+  --shadow-card: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.site-title {
+  font-size: 2rem;
+}
+
+/* Main section wrapper */
+.annunci {
+  padding: var(--gap) 1rem;
+}
+
+/* Empty state */
+.annunci__empty {
+  text-align: center;
+  font-style: italic;
+  color: var(--border-color);
+  padding: var(--gap) 0;
+}
+
+/* Grid layout for cards */
+.annunci__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+/* Article / Card styling */
+.annuncio-card {
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+.annuncio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Image container (perfect square) */
+.annuncio-card__image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+.annuncio-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card body */
+.annuncio-card__body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Title */
+.annuncio-card__title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Price */
+.annuncio-card__price {
+  font-size: 1rem;
+  color: var(--price-color);
+  font-weight: bold;
+}
+
+
+/* Simple “Dettagli” button */
+.view-details-button {
+  /* spacing */
+  margin-top: 1rem;
+
+  /* colors */
+  background-color: var(--price-color);
+  color: #fff;
+
+  /* reset defaults */
+  border: none;
+  outline: none;
+
+  /* shape & size */
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+
+  /* interaction */
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.view-details-button:hover {
+  filter: brightness(90%);
+}
+
+.filter-form {
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+.filter-form label {
+  font-weight: bold;
+}
+.filter-form select {
+  padding: .3em;
+}
+.filter-form button {
+  padding: .4em .8em;
+  cursor: pointer;
+}
+
+

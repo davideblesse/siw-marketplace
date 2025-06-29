@@ -1,10 +1,81 @@
-.profile-page   { display:flex; justify-content:center; padding:2rem }
-.profile-card   { background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.1);
-                  padding:2rem; max-width:400px; width:100%; text-align:center }
-.profile-card h2{ margin-bottom:.5rem }
-.profile-actions{ margin-top:1.5rem; display:flex; flex-direction:column; gap:.75rem }
-.profile-actions .btn{
-  display:inline-block; padding:.6rem 1rem; border-radius:6px;
-  background:#007acc; color:#fff; text-decoration:none
+/* profile.css */
+
+/* Main container */
+.profile-main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Open Sans', sans-serif;
 }
-.profile-actions .btn:hover{ filter:brightness(.9) }
+
+/* User info box */
+.user-info {
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.user-info h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.user-info p {
+  margin: 0.25rem 0;
+}
+
+/* Annunci section */
+.user-annunci h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Grid of cards */
+.annunci-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.annuncio-thumb {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+.annuncio-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Annuncio card tweaks (you may already have these) */
+.annuncio-card {
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.annuncio-card h3 {
+  margin: 0.5rem 0;
+}
+.annuncio-price {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.annuncio-link {
+  align-self: flex-end;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.annuncio-link:hover {
+  color: #555;
+}

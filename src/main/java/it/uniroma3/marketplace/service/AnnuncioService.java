@@ -44,4 +44,8 @@ public class AnnuncioService {
     public void delete(Annuncio annuncio) {
         this.annuncioRepo.delete(annuncio);
     }
+
+    public void deleteById(Long id) {
+        this.annuncioRepo.deleteById(id);
+    }
 }

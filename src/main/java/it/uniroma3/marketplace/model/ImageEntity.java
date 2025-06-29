@@ -8,6 +8,12 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 public class ImageEntity {
 
+    public ImageEntity() {}
+
+    public ImageEntity(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue
     private Long id;

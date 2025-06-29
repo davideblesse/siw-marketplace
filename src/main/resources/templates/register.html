@@ -1,64 +1,20 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Registrati</title>
-  <link rel="stylesheet" th:href="@{/css/header.css}">
-  <link rel="stylesheet" th:href="@{/css/footer.css}">
-  <link rel="stylesheet" th:href="@{/css/register.css}">
-</head>
-<body class="register-body">
-
-  <!-- HEADER -->
-  <div th:insert="~{fragments/header :: body}"></div>
-
-  <main class="register-page">
-    <div class="register-container">
-    <form th:action="@{/register}" method="post" class="register-form">
-    <h2>Registrati</h2>
-
-    <!-- -------- User -------- -->
-    <div class="input-group">
-        <label>Nome</label>
-        <input th:field="${user.name}"  placeholder="Nome"   required minlength="2"/>
-        <span th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}"></span>
-    </div>
-
-    <div class="input-group">
-        <label>Cognome</label>
-        <input th:field="${user.surname}" placeholder="Cognome" required minlength="2"/>
-        <span th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}"></span>
-    </div>
-
-    <div class="input-group">
-        <label>Email</label>
-        <input type="email" th:field="${user.email}" placeholder="Email" required/>
-        <span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"></span>
-    </div>
-
-    <!-- ------ Credentials ---- -->
-    <div class="input-group">
-        <label>Username</label>
-        <input th:field="${credentials.username}" placeholder="Username" required minlength="4"/>
-        <span th:if="${#fields.hasErrors('credentials.username')}"
-            th:errors="${credentials.username}"></span>
-    </div>
-
-    <div class="input-group">
-        <label>Password</label>
-        <input type="password" th:field="${credentials.password}" placeholder="Password" required minlength="6"/>
-        <span th:if="${#fields.hasErrors('credentials.password')}"
-            th:errors="${credentials.password}"></span>
-    </div>
-
-    <button type="submit">Registrati</button>
-    </form>
-
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <div th:insert="~{fragments/footer :: body}"></div>
-</body>
-</html>
+<form th:action="@{/register}" th:object="${credentials}" method="post">
+  <div>
+    <label>Username: <input th:field="*{username}" /></label>
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+  </div>
+  <div>
+    <label>Password: <input type="password" th:field="*{password}" /></label>
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+  </div>
+  <div>
+    <label>Nome: <input th:field="*{user.name}" /></label>
+  </div>
+  <div>
+    <label>Cognome: <input th:field="*{user.surname}" /></label>
+  </div>
+  <div>
+    <label>Email: <input th:field="*{user.email}" /></label>
+  </div>
+  <button type="submit">Registrati</button>
+</form>

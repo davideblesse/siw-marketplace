@@ -16,7 +16,7 @@ public class Commento {
     private Long id;
 
     @NotEmpty
-    private String comment;
+    private String text;
 
     @NotEmpty
     private String offer;
@@ -37,12 +37,12 @@ public class Commento {
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getText() {
+        return text;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getOffer() {

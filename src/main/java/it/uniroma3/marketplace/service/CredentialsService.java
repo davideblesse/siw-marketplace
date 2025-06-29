@@ -27,10 +27,10 @@ public class CredentialsService {
         return this.credentialsRepo.existsByUsername(username);
     }
 
-    public void saveCredentials(@Valid Credentials credentials){
+    public void save(@Valid Credentials credentials) {
         credentials.setRole(DEFAULT_ROLE);
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
-        this.credentialsRepo.save(credentials);
+        credentialsRepo.save(credentials);
     }
 
     public User getCurrentUser(){

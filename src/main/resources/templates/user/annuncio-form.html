@@ -1,66 +1,88 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title th:text="${editMode} ? 'Modifica annuncio' : 'Nuovo annuncio'">Annuncio</title>
-  <link rel="stylesheet" th:href="@{/css/annuncio-form.css}">
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Annuncio</title>
+  </head>
 
-  <header>
-    <h1 th:text="${editMode} ? 'Modifica annuncio' : 'Crea annuncio'">Annuncio</h1>
-  </header>
+  <body>
+    <header class="header">
+      <nav class="navbar">
+        <div class="navbar-content">
+          <div class="navbar-links-group">
+            <h1 class="navbar-Title">SiwMarketplace</h1>
+          </div>
+          <div class="navbar-links-group">
+            <a th:href="@{/}" class="navbar-link">Home</a>
+            <a th:href="@{/user/annunci}" class="navbar-link">Annunci</a>
+            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link active"
+              >Profilo</a
+            >
+            <form th:action="@{/logout}" method="post">
+              <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+              />
+              <button type="submit" class="navbar-link">Esci</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-  <!-- ①  ACTION dinamica  -->
-  <form  th:object="${annuncio}"
-         th:action="${editMode} ?
-            @{|/user/annunci/${annuncio.id}/edit|} :
-            @{/user/annunci}"
-         method="post"
-         enctype="multipart/form-data"
-         class="filter-form">
+    <main>
+      <h1
+        th:text="${annuncio.id == null} ? 'Nuovo Annuncio' : 'Modifica Annuncio'"
+      ></h1>
 
-    <!-- (facoltativo) id nascosto – utile se in futuro usi PUT -->
-    <input type="hidden" th:if="${editMode}" th:field="*{id}"/>
+      <form
+        th:action="@{${annuncio.id} == null ? '/annunci' : '/annunci/' + ${annuncio.id}}"
+        th:object="${annuncio}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <!-- only include the hidden id on edit -->
+        <input type="hidden" th:if="${annuncio.id != null}" th:field="*{id}" />
 
-    <!-- titolo -->
-    <div>
-      <label for="title">Titolo:</label>
-      <input id="title" type="text" th:field="*{title}">
-      <div th:errors="*{title}"></div>
-    </div>
+        <label>
+          Titolo:
+          <input type="text" th:field="*{title}" /> </label
+        ><br />
 
-    <!-- prezzo -->
-    <div>
-      <label for="price">Prezzo (€):</label>
-      <input id="price" type="number" min="0" th:field="*{price}">
-      <div th:errors="*{price}"></div>
-    </div>
+        <label>
+          Prezzo:
+          <input type="number" th:field="*{price}" /> </label
+        ><br />
 
-    <!-- categoria -->
-    <div>
-      <label for="categoria">Categoria:</label>
-      <select id="categoria" th:field="*{categoria}">
-        <option th:each="c : ${categorie}"
-                th:value="${c}"
-                th:text="${#strings.capitalize(c.name().toLowerCase())}">
-        </option>
-      </select>
-    </div>
+        <label>
+          Categoria:
+          <select th:field="*{categoria}">
+            <option
+              th:each="c : ${allCats}"
+              th:value="${c}"
+              th:text="${c}"
+            ></option>
+          </select> </label
+        ><br />
 
-    <!-- immagini: solo in creazione o se vuoi poterle aggiungere -->
-    <div>
-      <label for="images">Immagini:</label>
-      <input id="images" name="imageFiles" type="file" accept="image/*" multiple
-             th:disabled="${editMode}">   <!-- opzionale: disabilita in edit -->
-    </div>
+        <label>
+          Immagini:
+          <input
+            type="file"
+            name="imageFiles"
+            multiple
+            accept="image/*"
+          /> </label
+        ><br />
 
-    <button type="submit" th:text="${editMode} ? 'Aggiorna' : 'Salva'">Salva</button>
-  </form>
+        <button type="submit">Salva</button>
+      </form>
+    </main>
 
-  <footer>
-    <a th:href="@{/user/annunci}">← Torna ai miei annunci</a>
-  </footer>
-</body>
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Siwmarketplace - Vendi e compra quello che vuoi</p>
+      </div>
+    </footer>
+  </body>
 </html>

@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.CascadeType;
 
 @Entity
 public class Credentials {
@@ -21,7 +22,8 @@ public class Credentials {
     private String password;
 
     private String role;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)  
     private User user;
 
     public Long getId() {

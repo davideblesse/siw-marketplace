@@ -1,72 +1,106 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Annunci</title>
-  <link rel="stylesheet" href="/css/annunci.css">
-  <link rel="stylesheet" th:href="@{/css/header.css}">
-  <link rel="stylesheet" th:href="@{/css/footer.css}">
-</head>
-<body class="annunci-page">
-  <div th:insert="~{fragments/header :: body}"></div>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Annunci</title>
+    <link rel="stylesheet" href="/css/annunci.css" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+  </head>
+  <body class="annunci-page">
+    <header class="header">
+      <nav class="navbar">
+        <div class="navbar-content">
+          <div class="navbar-links-group">
+            <h1 class="navbar-Title">SiwMarketplace</h1>
+          </div>
+          <div class="navbar-links-group">
+            <a th:href="@{/}" class="navbar-link">Home</a>
+            <a th:href="@{/annunci}" class="navbar-link active">Annunci</a>
+            <a th:href="@{/login}" class="navbar-link">Accedi</a>
+          </div>
+        </div>
+      </nav>
+    </header>
 
     <form th:action="@{/annunci}" method="get" class="filter-form">
+      <label for="nome">Cerca per nome:</label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        th:value="${nomeSelezionato}"
+        placeholder="Titolo contiene…"
+      />
 
-    <label for="nome">Cerca per nome:</label>
-    <input type="text"
-          id="nome"
-          name="nome"
-          th:value="${nomeSelezionato}"
-          placeholder="Titolo contiene…"/>
+      <label for="categoria">Filtra per categoria:</label>
+      <select
+        id="categoria"
+        name="categoria"
+        th:value="${categoriaSelezionata}"
+      >
+        <option
+          value=""
+          th:text="'Tutte'"
+          th:selected="${categoriaSelezionata} == null"
+        ></option>
+        <option
+          th:each="c : ${categorie}"
+          th:value="${c}"
+          th:text="${#strings.capitalize(c.name().toLowerCase())}"
+          th:selected="${c} == ${categoriaSelezionata}"
+        ></option>
+      </select>
 
-    <label for="categoria">Filtra per categoria:</label>
-    <select id="categoria" name="categoria"
-            th:value="${categoriaSelezionata}">
-      <option value=""
-              th:text="'Tutte'"
-              th:selected="${categoriaSelezionata} == null">
-      </option>
-      <option th:each="c : ${categorie}"
-              th:value="${c}"
-              th:text="${#strings.capitalize(c.name().toLowerCase())}"
-              th:selected="${c} == ${categoriaSelezionata}">
-      </option>
-    </select>
+      <button type="submit">Filtra</button>
+    </form>
 
-    <button type="submit">Filtra</button>
-  </form>
+    <main class="annunci">
+      <!-- Messaggio quando non ci sono annunci -->
+      <p th:if="${#lists.isEmpty(annunci)}" class="annunci__empty">
+        Nessun annuncio disponibile
+      </p>
 
+      <!-- Griglia annunci -->
+      <div th:unless="${#lists.isEmpty(annunci)}" class="annunci-grid">
+        <div th:each="annuncio : ${annunci}" class="annuncio-card">
+          <!-- Copertina -->
+          <div class="annuncio-cover-wrapper">
+            <img
+              th:if="${annuncio.images != null and !#lists.isEmpty(annuncio.images)}"
+              th:src="${annuncio.images[0].name}"
+              th:alt="'Immagine di ' + ${annuncio.title}"
+            />
+            <img
+              th:unless="${annuncio.images != null and !#lists.isEmpty(annuncio.images)}"
+              src="/images/placeholder.jpg"
+              alt="Nessuna immagine"
+            />
+          </div>
 
-  <main class="annunci">
-    <p th:if="${annunci.empty}" class="annunci__empty">
-      Nessun annuncio disponibile
-    </p>
-
-    <section th:unless="${annunci.empty}" class="annunci__list">
-      <article th:each="annuncio : ${annunci}" class="annuncio-card">
-        <div class="annuncio-card__image">
-          <img th:if="${annuncio.images != null and !#lists.isEmpty(annuncio.images)}"
-               th:src="@{${annuncio.images[0].name}}"
-               th:alt="'Immagine di ' + ${annuncio.title}" />
-          <img th:if="${annuncio.images == null or annuncio.images.empty}"
-               src="/images/placeholder.jpg"
-               alt="Nessuna immagine" />
+          <!-- Info annuncio -->
+          <div class="annuncio-info">
+            <h2 class="annuncio-title" th:text="${annuncio.title}">
+              Titolo annuncio
+            </h2>
+            <p class="annuncio-price" th:text="${annuncio.price} + ' €'">
+              0,00 €
+            </p>
+            <a
+              class="view-details-link"
+              th:href="@{'/annunci/' + ${annuncio.id}}"
+            >
+              Dettagli
+            </a>
+          </div>
         </div>
-        <div class="annuncio-card__body">
-          <h2 class="annuncio-card__title" th:text="${annuncio.title}">Titolo annuncio</h2>
-          <p class="annuncio-card__price" th:text="${annuncio.price} + '€'">0,00€</p>
-          <button class="view-details-button"
-                  th:onclick="'location.href=\'/annunci/' + ${annuncio.id} + '\';'"
-                  title="Dettagli annuncio">
-            Dettagli
-          </button>
-        </div>
-      </article>
-    </section>
-  </main>
+      </div>
+    </main>
 
-  <div th:insert="~{fragments/footer :: body}"></div>
-</body>
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Siwmarketplace - Vendi e compra quello che vuoi</p>
+      </div>
+    </footer>
+  </body>
 </html>

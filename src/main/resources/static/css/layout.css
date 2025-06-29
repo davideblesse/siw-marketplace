@@ -1,0 +1,119 @@
+/* layout.css */
+
+/* Reset some defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+.header {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-links-group {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-Title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+}
+
+
+.navbar-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: #ddd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+button.navbar-link {
+  /* remove default button styles */
+  background: none;
+  border: none;
+  /* preserve your link padding & sizing */
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  /* grab the same font/color/hover you already have */
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+/* hover state */
+.navbar-link:hover {
+  color: #fff;
+}
+
+/* active page state */
+.navbar-link.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+/* FOOTER */
+.footer {
+  background-color: #f5f5f5;
+  color: #555;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
+}
+
+
+/* make our inline logout form sit in the link-group */
+.navbar-links-group form {
+  display: inline; 
+  margin: 0;     /* reset any browser form margins */
+}
+
+/* style <button class="navbar-link"> exactly like your links */
+button.navbar-link {
+  /* inherit all the .navbar-link settings */
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: #ddd;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  transition: color 0.2s ease;
+  cursor: pointer;
+
+  /* reset the button defaults */
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* hover/active states just like your <a> links */
+button.navbar-link:hover,
+button.navbar-link.active {
+  color: #fff;
+}

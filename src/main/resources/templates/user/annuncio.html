@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="${annuncio.title} + ' – SiwMarketplace'">Dettaglio Annuncio</title>
+    <title th:text="${annuncio.title} + ' – SiwMarketplace'">
+      Dettaglio Annuncio
+    </title>
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/annuncio.css}" />
   </head>
@@ -16,8 +18,16 @@
           </div>
           <div class="navbar-links-group">
             <a th:href="@{/}" class="navbar-link">Home</a>
-            <a th:href="@{/annunci}" class="navbar-link active">Annunci</a>
-            <a th:href="@{/login}" class="navbar-link">Accedi</a>
+            <a th:href="@{/user/annunci}" class="navbar-link active">Annunci</a>
+            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link">Profilo</a>
+            <form th:action="@{/logout}" method="post">
+              <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+              />
+              <button type="submit" class="navbar-link">Esci</button>
+            </form>
           </div>
         </div>
       </nav>
@@ -27,25 +37,37 @@
       <!-- TOP: immagini + descrizione -->
       <section class="annuncio-top">
         <div class="images-container">
-          <div class="images-grid" th:if="${not #lists.isEmpty(annuncio.images)}">
+          <div
+            class="images-grid"
+            th:if="${not #lists.isEmpty(annuncio.images)}"
+          >
             <div th:each="img : ${annuncio.images}" class="image-item">
               <img
                 th:src="${img.name}"
-                alt="Foto di [[${annuncio.title}]]"
+                th:alt="Foto di [[${annuncio.title}]]"
                 class="annuncio-img"
               />
             </div>
           </div>
-          <div class="no-images-placeholder" th:if="${#lists.isEmpty(annuncio.images)}">
+          <div
+            class="no-images-placeholder"
+            th:if="${#lists.isEmpty(annuncio.images)}"
+          >
             Nessuna immagine disponibile
           </div>
         </div>
         <div class="annuncio-info">
-          <h1 class="annuncio-title" th:text="${annuncio.title}">Titolo Annuncio</h1>
-          <div class="annuncio-prezzo" th:text="${annuncio.price} + ' €'">0,00 €</div>
+          <h1 class="annuncio-title" th:text="${annuncio.title}">
+            Titolo Annuncio
+          </h1>
+          <div class="annuncio-prezzo" th:text="${annuncio.price} + ' €'">
+            0,00 €
+          </div>
           <div class="info-section">
             <strong>Venditore:</strong>
-            <span th:text="${annuncio.owner.name + ' ' + annuncio.owner.surname}">
+            <span
+              th:text="${annuncio.owner.name + ' ' + annuncio.owner.surname}"
+            >
               Nome Venditore
             </span>
           </div>
@@ -55,10 +77,15 @@
       <!-- BOTTOM: commenti -->
       <section class="comments-section">
         <h2>Commenti</h2>
-        <div class="commenti-list" th:if="${not #lists.isEmpty(annuncio.commenti)}">
+        <div
+          class="commenti-list"
+          th:if="${not #lists.isEmpty(annuncio.commenti)}"
+        >
           <div th:each="commento : ${annuncio.commenti}" class="commento-item">
-            <h4 class="commento-user"
-                th:text="${commento.user.name + ' ' + commento.user.surname}">
+            <h4
+              class="commento-user"
+              th:text="${commento.user.name + ' ' + commento.user.surname}"
+            >
               Nome Utente
             </h4>
             <p class="commento-text" th:text="${commento.text}">
@@ -69,7 +96,10 @@
             </p>
           </div>
         </div>
-        <div class="commento-empty" th:if="${#lists.isEmpty(annuncio.commenti)}">
+        <div
+          class="commento-empty"
+          th:if="${#lists.isEmpty(annuncio.commenti)}"
+        >
           Nessun commento
         </div>
         <div class="login-to-review">

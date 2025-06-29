@@ -11,5 +11,6 @@ public interface AnnuncioRepository extends JpaRepository<Annuncio, Long>{
     List<Annuncio> findByOwner(User owner);
     List<Annuncio> findByCategoria(Categoria categoria);
     List<Annuncio> findByCategoriaAndTitleContainingIgnoreCase(Categoria categoria, String name);
+    
 }
 

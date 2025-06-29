@@ -1,86 +1,110 @@
-/* Scope RESET solo dentro .annunci-page */
-.annunci-page * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* annunci.css */
+
+/* --- Form di filtraggio --- */
+.filter-form {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
 }
 
-/* Solo per la pagina annunci, non per header/footer */
-.annunci-page {
-  font-family: var(--font-stack);
-  background: var(--section-bg);
-  color: var(--title-color);
-  line-height: 1.5;
+.filter-form label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
 }
 
-/* Header e footer ora usano header.css e footer.css, tolgo da qui */
-:root {
-  --border-color: #ddd;
-  --radius: 8px;
-  --gap: 1.5rem;
-  --bg-color: #fff;
-  --section-bg: #f2f5f8;
-  --title-color: #333;
-  --price-color: #008000;
-  --font-stack: "Segoe UI", Arial, sans-serif;
-  --shadow-card: 0 2px 6px rgba(0,0,0,0.1);
+.filter-form input[type="text"],
+.filter-form select {
+  flex: 1 1 200px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.site-title {
-  font-size: 2rem;
+.filter-form input[type="text"]:focus,
+.filter-form select:focus {
+  border-color: #333;
 }
 
-/* Main section wrapper */
+.filter-form button {
+  padding: 0.5rem 1rem;
+  font-family: 'Merriweather', serif;
+  font-size: 1rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.filter-form button:hover {
+  background-color: #555;
+}
+
+/* --- Contenitore principale degli annunci --- */
 .annunci {
-  padding: var(--gap) 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-/* Empty state */
 .annunci__empty {
+  font-family: 'Open Sans', sans-serif;
+  color: #666;
   text-align: center;
   font-style: italic;
-  color: var(--border-color);
-  padding: var(--gap) 0;
+  margin-top: 2rem;
 }
 
-/* Grid layout for cards */
-.annunci__list {
+/* --- Griglia di card --- */
+.annunci-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--gap);
-  margin-top: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-/* Article / Card styling */
+/* --- Card singola --- */
 .annuncio-card {
-  background: var(--bg-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform .2s, box-shadow .2s;
-}
-.annuncio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: box-shadow 0.2s;
 }
 
-/* Image container (perfect square) */
-.annuncio-card__image {
+.annuncio-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* --- Immagine di copertina --- */
+.annuncio-cover-wrapper {
+  position: relative;
   width: 100%;
-  aspect-ratio: 1/1;
+  padding-bottom: 66.66%; /* 3:2 ratio */
+  background: #eee;
   overflow: hidden;
 }
-.annuncio-card__image img {
+
+.annuncio-cover-wrapper img {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-/* Card body */
-.annuncio-card__body {
+/* --- Sezione info --- */
+.annuncio-info {
   padding: 1rem;
   flex: 1;
   display: flex;
@@ -88,62 +112,29 @@
   justify-content: space-between;
 }
 
-/* Title */
-.annuncio-card__title {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
+.annuncio-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  color: #333;
 }
 
-/* Price */
-.annuncio-card__price {
+.annuncio-price {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
-  color: var(--price-color);
   font-weight: bold;
+  margin: 0 0 1rem;
+  color: #333;
 }
 
-
-/* Simple “Dettagli” button */
-.view-details-button {
-  /* spacing */
-  margin-top: 1rem;
-
-  /* colors */
-  background-color: var(--price-color);
-  color: #fff;
-
-  /* reset defaults */
-  border: none;
-  outline: none;
-
-  /* shape & size */
-  border-radius: var(--radius);
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-
-  /* interaction */
-  cursor: pointer;
-  transition: filter 0.2s ease;
-}
-
-.view-details-button:hover {
-  filter: brightness(90%);
-}
-
-.filter-form {
-  margin: 1em 0;
-  display: flex;
-  align-items: center;
-  gap: .5em;
-}
-.filter-form label {
+.view-details-link {
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
   font-weight: bold;
-}
-.filter-form select {
-  padding: .3em;
-}
-.filter-form button {
-  padding: .4em .8em;
-  cursor: pointer;
+  color: #ff8f00;
+  transition: color 0.2s;
 }
 
-
+.view-details-link:hover {
+  color: #e57c00;
+}

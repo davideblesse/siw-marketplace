@@ -33,6 +33,11 @@ public class User {
                orphanRemoval=true)
     private List<Commento> commenti;
 
+    @OneToMany(mappedBy = "owner", 
+               cascade = CascadeType.ALL,
+               orphanRemoval=true)
+    private List<Annuncio> annunci;
+
     public Long getId() {
         return id;
     }
@@ -114,6 +119,14 @@ public class User {
 
     public void setCommenti(List<Commento> commenti) {
         this.commenti = commenti;
+    }
+
+    public List<Annuncio> getAnnunci() {
+        return annunci;
+    }
+
+    public void setAnnunci(List<Annuncio> annunci) {
+        this.annunci = annunci;
     }
 
     

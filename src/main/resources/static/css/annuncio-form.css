@@ -1,0 +1,72 @@
+/* annuncio-form.css */
+
+/* Contenitore principale del form */
+.annuncio-form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Titolo pagina */
+.annuncio-form-container > h1 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #b71c1c;
+  text-align: center;
+}
+
+/* Form vero e proprio */
+.annuncio-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Label + input/select/file */
+.annuncio-form-container label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.annuncio-form-container input[type="text"],
+.annuncio-form-container input[type="number"],
+.annuncio-form-container select,
+.annuncio-form-container input[type="file"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.annuncio-form-container input:focus,
+.annuncio-form-container select:focus {
+  border-color: #b71c1c;
+}
+
+/* Pulsante salva */
+.annuncio-form-container button[type="submit"] {
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.annuncio-form-container button[type="submit"]:hover {
+  background-color: #d32f2f;
+}

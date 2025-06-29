@@ -20,9 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.marketplace.costanti.Categoria;
 import it.uniroma3.marketplace.model.Annuncio;
+import it.uniroma3.marketplace.model.Commento;
 import it.uniroma3.marketplace.model.ImageEntity;
 import it.uniroma3.marketplace.model.User;
 import it.uniroma3.marketplace.service.AnnuncioService;
+import it.uniroma3.marketplace.service.CommentoService;
 import it.uniroma3.marketplace.service.UserService;
 
 @Controller
@@ -34,6 +36,9 @@ public class AnnuncioController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommentoService commentoService;
+
     // --- public list / detail ---
 
     @GetMapping("/annunci")
@@ -43,11 +48,21 @@ public class AnnuncioController {
             Model model) {
 
         List<Annuncio> annunci;
-        if (nome != null && !nome.isBlank()) {
+
+        boolean hasNome      = nome != null && !nome.isBlank();
+        boolean hasCategoria = categoria != null;
+
+        if (hasNome && hasCategoria) {
+            // filtro con entrambi
             annunci = annuncioService.findByCategoriaAndNome(categoria, nome);
-        } else if (categoria != null) {
+        } else if (hasNome) {
+            // solo per nome
+            annunci = annuncioService.findByNome(nome);
+        } else if (hasCategoria) {
+            // solo per categoria
             annunci = annuncioService.findByCategoria(categoria);
         } else {
+            // nessun filtro
             annunci = annuncioService.findAll();
         }
 
@@ -58,13 +73,6 @@ public class AnnuncioController {
         return "annunci";
     }
 
-    @GetMapping("/annunci/{id}")
-    public String showAnnuncio(@PathVariable Long id, Model model) {
-        Annuncio annuncio = annuncioService.findById(id);
-        if (annuncio == null) return "error";
-        model.addAttribute("annuncio", annuncio);
-        return "annuncio";
-    }
 
     // --- user’s own annunci list & detail ---
 
@@ -74,19 +82,27 @@ public class AnnuncioController {
             @RequestParam(required=false) String nome,
             Model model) {
 
-        User current = userService.getCurrentUser();
-        if (current == null) return "redirect:/login";
-
         List<Annuncio> annunci;
-        if (nome != null && !nome.isBlank()) {
+        User user = userService.getCurrentUser();
+
+        boolean hasNome      = nome != null && !nome.isBlank();
+        boolean hasCategoria = categoria != null;
+
+        if (hasNome && hasCategoria) {
+            // filtro con entrambi
             annunci = annuncioService.findByCategoriaAndNome(categoria, nome);
-        } else if (categoria != null) {
+        } else if (hasNome) {
+            // solo per nome
+            annunci = annuncioService.findByNome(nome);
+        } else if (hasCategoria) {
+            // solo per categoria
             annunci = annuncioService.findByCategoria(categoria);
         } else {
+            // nessun filtro
             annunci = annuncioService.findAll();
         }
 
-        model.addAttribute("user", current);
+        model.addAttribute("user", user);
         model.addAttribute("annunci", annunci);
         model.addAttribute("categorie", Categoria.values());
         model.addAttribute("categoriaSelezionata", categoria);
@@ -102,8 +118,12 @@ public class AnnuncioController {
         Annuncio annuncio = annuncioService.findById(id);
         if (annuncio == null) return "error";
 
+        // prendi i commenti già ordinati
+        List<Commento> commenti = commentoService.findByAnnuncioDesc(annuncio);
+
         model.addAttribute("user", current);
         model.addAttribute("annuncio", annuncio);
+        model.addAttribute("commenti", commenti);
         return "user/annuncio";
     }
 
@@ -158,7 +178,7 @@ public String createAnnuncio(
     annuncio.setImages(images);
 
     annuncioService.save(annuncio);
-    return "redirect:/annunci/" + annuncio.getId();
+    return "redirect:/user/annunci/" + annuncio.getId();
 }
 
 
@@ -178,43 +198,43 @@ public String createAnnuncio(
         return "user/annuncio-form";
     }
 
-    // --- edit form & handler ---
-    @PostMapping("/annunci/{id}")
-    public String updateAnnuncio(
-            @PathVariable Long id,
-            @ModelAttribute Annuncio annuncio,
-            @RequestParam("imageFiles") MultipartFile[] imageFiles
-    ) throws IOException {
-        User current = userService.getCurrentUser();
-        if (current == null) return "redirect:/login";
+// --- edit form & handler ---
+@PostMapping("/annunci/{id}")
+public String updateAnnuncio(
+        @PathVariable Long id,
+        @ModelAttribute Annuncio annuncio,
+        @RequestParam("imageFiles") MultipartFile[] imageFiles
+) throws IOException {
+    User current = userService.getCurrentUser();
+    if (current == null) return "redirect:/login";
 
-        Annuncio existing = annuncioService.findById(id);
-        if (existing == null) return "error";
+    Annuncio existing = annuncioService.findById(id);
+    if (existing == null) return "error";
 
-        // (ri)assegno l’owner per sicurezza
-        existing.setOwner(current);
+    // (ri)assegno l’owner per sicurezza
+    existing.setOwner(current);
 
-        // copio i campi modificabili
-        existing.setTitle(annuncio.getTitle());
-        existing.setPrice(annuncio.getPrice());
-        existing.setCategoria(annuncio.getCategoria());
+    // copio i campi modificabili
+    existing.setTitle(annuncio.getTitle());
+    existing.setPrice(annuncio.getPrice());
+    existing.setCategoria(annuncio.getCategoria());
 
-        // sostituisco le immagini
-        List<ImageEntity> images = new ArrayList<>();
-        for (MultipartFile file : imageFiles) {
-            if (!file.isEmpty()) {
-                Path target = Paths
-                    .get("src/main/resources/static/images/")
-                    .resolve(file.getOriginalFilename());
-                Files.copy(file.getInputStream(),
-                        target,
-                        StandardCopyOption.REPLACE_EXISTING);
-                images.add(new ImageEntity(file.getOriginalFilename()));
-            }
+    // sostituisco le immagini
+    List<ImageEntity> images = new ArrayList<>();
+    for (MultipartFile file : imageFiles) {
+        if (!file.isEmpty()) {
+            Path target = Paths
+                .get("src/main/resources/static/images/")
+                .resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(),
+                       target,
+                       StandardCopyOption.REPLACE_EXISTING);
+            images.add(new ImageEntity(file.getOriginalFilename()));
         }
-        existing.setImages(images);
-
-        annuncioService.save(existing);
-        return "redirect:/annunci/" + existing.getId();
     }
+    existing.setImages(images);
+
+    annuncioService.save(existing);
+    return "redirect:/user/annunci/" + existing.getId();
+}
 }

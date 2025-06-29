@@ -1,81 +1,155 @@
 /* profile.css */
 
-/* Main container */
+/* --- contenitore principale --- */
 .profile-main {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
   font-family: 'Open Sans', sans-serif;
 }
 
-/* User info box */
+/* --- sezione dati utente --- */
 .user-info {
-  background-color: #fafafa;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
 }
 .user-info h2 {
   font-family: 'Merriweather', serif;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   margin-bottom: 0.5rem;
 }
-.user-info p {
-  margin: 0.25rem 0;
-}
+.user-info p { color: #555; }
 
-/* Annunci section */
+/* --- titolo sottosezioni --- */
 .user-annunci h2 {
   font-family: 'Merriweather', serif;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.45rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Grid of cards */
+/* --- pulsante nuovo annuncio --- */
+.new-annuncio-button {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: #28a745;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.new-annuncio-button:hover {
+  background: #218838;
+}
+
+/* --- griglia annunci dell’utente --- */
 .annunci-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
 }
 
-.annuncio-thumb {
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-.annuncio-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Annuncio card tweaks (you may already have these) */
+/* --- card singolo annuncio --- */
 .annuncio-card {
-  background-color: #fafafa;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  transition: transform .2s, box-shadow .2s;
 }
+.annuncio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* thumbnail immagine */
+.annuncio-thumb {
+  width: 100%;
+  height: 200px;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.annuncio-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* titolo & prezzo */
 .annuncio-card h3 {
-  margin: 0.5rem 0;
+  margin: 1rem 1rem 0.5rem;
+  font-size: 1.05rem;
+  font-family: 'Merriweather', serif;
 }
 .annuncio-price {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin: 0 1rem 0.75rem;
+  font-weight: 600;
+  color: #333;
 }
+
+/* container azioni */
+.card-actions {
+  margin-top: auto;
+  padding: 0 1rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+/* link “dettagli” */
 .annuncio-link {
-  align-self: flex-end;
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0;
+  background: #0066cc;
+  color: #fff;
+  border-radius: 4px;
   text-decoration: none;
-  font-weight: bold;
-  transition: color 0.2s;
+  font-size: 0.85rem;
+  transition: background .2s;
 }
-.annuncio-link:hover {
-  color: #555;
+.annuncio-link:hover { background: #0057ad; }
+
+/* link “modifica” */
+.edit-annuncio-button {
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0;
+  background: #ffc107;
+  color: #212529;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: background .2s;
+}
+.edit-annuncio-button:hover { background: #e0a800; }
+
+/* pulsante elimina */
+.delete-form { flex: 1; }
+.delete-button {
+  width: 100%;
+  padding: 0.45rem 0;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .2s;
+}
+.delete-button:hover { background: #c82333; }
+
+/* messaggio “nessun annuncio” */
+.user-annunci p {
+  color: #777;
+  text-align: center;
 }

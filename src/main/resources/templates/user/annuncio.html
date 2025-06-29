@@ -17,9 +17,11 @@
             <h1 class="navbar-Title">SiwMarketplace</h1>
           </div>
           <div class="navbar-links-group">
-            <a th:href="@{/}" class="navbar-link">Home</a>
+            <a th:href="@{/user/annunci}" class="navbar-link">Home</a>
             <a th:href="@{/user/annunci}" class="navbar-link active">Annunci</a>
-            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link">Profilo</a>
+            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link"
+              >Profilo</a
+            >
             <form th:action="@{/logout}" method="post">
               <input
                 type="hidden"
@@ -43,9 +45,10 @@
           >
             <div th:each="img : ${annuncio.images}" class="image-item">
               <img
-              th:src="${img.name}"
-              th:alt="'Foto di ' + ${annuncio.title}"
-              class="annuncio-img"/>
+                th:src="${img.name}"
+                th:alt="'Foto di ' + ${annuncio.title}"
+                class="annuncio-img"
+              />
               />
             </div>
           </div>
@@ -77,33 +80,69 @@
       <!-- BOTTOM: commenti -->
       <section class="comments-section">
         <h2>Commenti</h2>
-        <div
-          class="commenti-list"
-          th:if="${not #lists.isEmpty(annuncio.commenti)}"
-        >
-          <div th:each="commento : ${annuncio.commenti}" class="commento-item">
-            <h4
-              class="commento-user"
-              th:text="${commento.user.name + ' ' + commento.user.surname}"
-            >
-              Nome Utente
-            </h4>
-            <p class="commento-text" th:text="${commento.text}">
-              Testo commento
-            </p>
-            <p class="commento-offerta" th:text="'Offre: ' + ${commento.offer}">
-              Offerta
-            </p>
-          </div>
-        </div>
-        <div
-          class="commento-empty"
-          th:if="${#lists.isEmpty(annuncio.commenti)}"
-        >
+
+        <div th:if="${#lists.isEmpty(commenti)}" class="commento-empty">
           Nessun commento
         </div>
-        <div class="login-to-review">
-          Per scrivere un commento, <a th:href="@{/login}">accedi qui</a>.
+        <div th:each="c : ${commenti}" class="commento-item">
+          <h4
+            class="commento-user"
+            th:text="${c.user.name + ' ' + c.user.surname}"
+          >
+            Nome Utente
+          </h4>
+          <p class="commento-text" th:text="${c.text}">Testo commento</p>
+          <p class="commento-offerta" th:text="'Offre: ' + ${c.offer}">
+            Offerta
+          </p>
+          <!-- solo chi ha scritto lo vede -->
+          <div
+            th:if="${user != null and c.user.id == user.id}"
+            class="my-comment-actions"
+          >
+            <form
+              th:action="@{/user/annunci/{annuncioId}/comment/{id}/delete(
+                 annuncioId=${annuncio.id},id=${c.id})}"
+              method="post"
+            >
+              <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+              />
+              <button type="submit" class="delete-comment-button">
+                Elimina
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div th:if="${user != null}" class="comment-form-wrapper">
+          <form
+            th:action="@{/user/annunci/{id}/comment(id=${annuncio.id})}"
+            method="post"
+            class="comment-form"
+          >
+            <!-- CSRF -->
+            <input
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}"
+            />
+
+            <label>
+              Commento:
+              <textarea name="text" rows="3" required></textarea>
+            </label>
+            <label>
+              Offerta:
+              <input type="text" name="offer" required />
+            </label>
+            <button type="submit">Invia</button>
+          </form>
+        </div>
+        <div th:if="${user == null}" class="login-to-comment">
+          Per commentare <a th:href="@{/login}">accedi</a>.
         </div>
       </section>
     </main>

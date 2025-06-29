@@ -136,3 +136,103 @@
 .login-to-review a:hover {
   text-decoration: underline;
 }
+
+/* annuncio.css */
+
+/* wrapper */
+.comments-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.comments-section h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* singolo commento */
+.commento-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.commento-user {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.commento-text {
+  margin-bottom: 0.5rem;
+}
+.commento-offerta {
+  font-style: italic;
+  color: #555;
+}
+
+/* form nuovo commento */
+.comment-form-wrapper {
+  margin-top: 1.5rem;
+}
+.comment-form {
+  background: #fafafa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+.comment-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.comment-form textarea,
+.comment-form input[type="text"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+}
+.comment-form button {
+  padding: 0.6rem 1.2rem;
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.comment-form button:hover {
+  background: #d32f2f;
+}
+
+/* prompt login */
+.login-to-comment {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.login-to-comment a {
+  color: #b71c1c;
+  text-decoration: underline;
+}
+
+
+/* elimina sul proprio commento */
+.my-comment-actions {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+.delete-comment-button {
+  background: #c62828;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.delete-comment-button:hover {
+  background: #e53935;
+}
+

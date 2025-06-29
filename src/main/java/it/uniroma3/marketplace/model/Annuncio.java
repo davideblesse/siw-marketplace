@@ -55,7 +55,7 @@ public class Annuncio {
         cascade=CascadeType.ALL,
         orphanRemoval=true
         )
-    private List<Commento> commenti;
+    private List<Commento> commenti = new ArrayList<>();
 
 
     public Long getId() {

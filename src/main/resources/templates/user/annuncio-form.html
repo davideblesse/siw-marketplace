@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Annuncio</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Il mio profilo</title>
+    <link rel="stylesheet" href="/css/annuncio-form.css" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
   </head>
 
   <body>
@@ -12,7 +16,7 @@
             <h1 class="navbar-Title">SiwMarketplace</h1>
           </div>
           <div class="navbar-links-group">
-            <a th:href="@{/}" class="navbar-link">Home</a>
+            <a th:href="@{/user/annunci}" class="navbar-link">Home</a>
             <a th:href="@{/user/annunci}" class="navbar-link">Annunci</a>
             <a th:href="@{'/user/' + ${user.id}}" class="navbar-link active"
               >Profilo</a
@@ -30,7 +34,7 @@
       </nav>
     </header>
 
-    <main>
+    <main class="annuncio-form-container">
       <h1 th:text="${annuncio.id} == null ? 'Nuovo Annuncio' : 'Modifica Annuncio'"></h1>
 
       <!-- FORM CREAZIONE -->

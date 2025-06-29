@@ -1,6 +1,6 @@
 /* layout.css */
 
-/* Reset some defaults */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -9,15 +9,16 @@
 
 /* HEADER */
 .header {
-  background-color: #333;
+  background-color: #b71c1c;       /* rosso scuro */
   color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 8px 8px;      /* arrotondato in basso */
 }
 
 .navbar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
 }
 
 .navbar-content {
@@ -33,49 +34,51 @@
 
 .navbar-Title {
   font-family: 'Merriweather', serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-right: 2rem;
 }
 
-
-.navbar-link {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  color: #ddd;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
+/* NAV LINKS */
+.navbar-link,
 button.navbar-link {
-  /* remove default button styles */
-  background: none;
-  border: none;
-  /* preserve your link padding & sizing */
   display: inline-block;
-  padding: 0.5rem 1rem;
-  /* grab the same font/color/hover you already have */
-  font-family: inherit;
-  color: inherit;
+  padding: 0.5rem 1.2rem;
+  margin-right: 0.5rem;
+  color: #ffebee;                  /* rosso chiarissimo */
+  background: transparent;
+  border: none;
+  border-radius: 6px;              /* arrotondato */
   text-decoration: none;
-  transition: color 0.2s ease;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s;
   cursor: pointer;
 }
 
-/* hover state */
-.navbar-link:hover {
+.navbar-link:hover,
+button.navbar-link:hover {
+  background-color: rgba(255, 235, 238, 0.3);
   color: #fff;
 }
 
-/* active page state */
-.navbar-link.active {
+.navbar-link.active,
+button.navbar-link.active {
+  background-color: rgba(255, 235, 238, 0.4);
   color: #fff;
-  border-bottom: 2px solid #fff;
 }
+
+/* mantieni il form logout in linea */
+.navbar-links-group form {
+  display: inline;
+  margin: 0;
+}
+
 /* FOOTER */
 .footer {
-  background-color: #f5f5f5;
-  color: #555;
-  border-top: 1px solid #e0e0e0;
+  background-color: #ffebee;       /* rosa chiarissimo tendente al rosso */
+  color: #4e342e;                  /* marrone scuro per contrasto */
+  border-top: 1px solid #d32f2f;   /* bordo rosso medio */
+  border-radius: 8px 8px 0 0;      /* arrotondato in alto */
 }
 
 .footer-content {
@@ -85,35 +88,4 @@ button.navbar-link {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 0.9rem;
-}
-
-
-/* make our inline logout form sit in the link-group */
-.navbar-links-group form {
-  display: inline; 
-  margin: 0;     /* reset any browser form margins */
-}
-
-/* style <button class="navbar-link"> exactly like your links */
-button.navbar-link {
-  /* inherit all the .navbar-link settings */
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  color: #ddd;
-  text-decoration: none;
-  font-family: inherit;
-  font-size: inherit;
-  transition: color 0.2s ease;
-  cursor: pointer;
-
-  /* reset the button defaults */
-  background: none;
-  border: none;
-  outline: none;
-}
-
-/* hover/active states just like your <a> links */
-button.navbar-link:hover,
-button.navbar-link.active {
-  color: #fff;
 }

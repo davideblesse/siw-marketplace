@@ -15,11 +15,9 @@
             <h1 class="navbar-Title">SiwMarketplace</h1>
           </div>
           <div class="navbar-links-group">
-            <a th:href="@{/}" class="navbar-link">Home</a>
-            <a th:href="@{/annunci}" class="navbar-link">Annunci</a>
-            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link active"
-              >Profilo</a
-            >
+            <a th:href="@{/user/annunci}" class="navbar-link">Home</a>
+            <a th:href="@{/user/annunci}" class="navbar-link">Annunci</a>
+            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link active">Profilo</a>
             <form th:action="@{/logout}" method="post">
               <input
                 type="hidden"
@@ -46,13 +44,18 @@
       <!-- User's Annunci -->
       <section class="user-annunci">
         <h2>I tuoi annunci</h2>
+        <!-- Pulsante per creare un nuovo annuncio -->
+        <a th:href="@{/user/annunci/new}" class="new-annuncio-button">
+          + Nuovo annuncio
+        </a>
+
         <p th:if="${#lists.isEmpty(user.annunci)}">
           Non hai pubblicato annunci.
         </p>
 
         <div th:unless="${#lists.isEmpty(user.annunci)}" class="annunci-grid">
           <div th:each="annuncio : ${user.annunci}" class="annuncio-card">
-            <!-- Thumbnail: first image or placeholder -->
+            <!-- Thumbnail -->
             <div class="annuncio-thumb">
               <img
                 th:if="${annuncio.images != null and !#lists.isEmpty(annuncio.images)}"
@@ -70,23 +73,33 @@
             <p class="annuncio-price" th:text="${annuncio.price} + ' €'">
               0,00 €
             </p>
-            <a
-              th:href="@{'/user/annunci/' + ${annuncio.id}}"
-              class="annuncio-link"
-              >Dettagli</a
-            >
-            <form
-              th:action="@{'/user/annunci/' + ${annuncio.id} + '/delete'}"
-              method="post"
-              class="delete-form"
-            >
-              <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}"
-              />
-              <button type="submit" class="delete-button">Elimina</button>
-            </form>
+
+            <div class="card-actions">
+              <a
+                th:href="@{'/user/annunci/' + ${annuncio.id}}"
+                class="annuncio-link"
+                >Dettagli</a
+              >
+              <a
+                th:href="@{'/user/annunci/' + ${annuncio.id} + '/edit'}"
+                class="edit-annuncio-button"
+                >Modifica</a
+              >
+              <form
+                th:action="@{'/user/annunci/' + ${annuncio.id} + '/delete'}"
+                method="post"
+                class="delete-form"
+              >
+                <input
+                  type="hidden"
+                  th:name="${_csrf.parameterName}"
+                  th:value="${_csrf.token}"
+                />
+                <button type="submit" class="delete-button">
+                  Elimina
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>

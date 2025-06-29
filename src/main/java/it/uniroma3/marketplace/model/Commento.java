@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Commento {
@@ -21,12 +22,12 @@ public class Commento {
     @NotEmpty
     private String offer;
 
-    @ManyToOne
-    @NotEmpty
+    @ManyToOne(optional = false)
+    @NotNull
     private User user;
 
-    @ManyToOne
-    @NotEmpty
+    @ManyToOne(optional = false)
+    @NotNull
     private Annuncio annuncio;
 
     public Long getId() {

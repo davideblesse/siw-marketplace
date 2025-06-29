@@ -36,6 +36,10 @@ public class AnnuncioService {
         return annuncioRepo.findByOwner(user);
     }
 
+    public List<Annuncio> findByNome(String nome){
+        return annuncioRepo.findByTitleContainingIgnoreCase(nome);
+    }
+
 
     public void save(Annuncio annuncio){
         this.annuncioRepo.save(annuncio);

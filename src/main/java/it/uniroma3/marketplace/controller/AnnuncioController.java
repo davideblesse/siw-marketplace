@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,6 @@ import it.uniroma3.marketplace.model.ImageEntity;
 import it.uniroma3.marketplace.model.User;
 import it.uniroma3.marketplace.service.AnnuncioService;
 import it.uniroma3.marketplace.service.UserService;
-import jakarta.validation.Valid;
 
 @Controller
 public class AnnuncioController {
@@ -133,35 +131,36 @@ public class AnnuncioController {
         return "user/annuncio-form";
     }
 
-    @PostMapping("/annunci")
-    public String createAnnuncio(
-            @ModelAttribute Annuncio annuncio,
-            @RequestParam("imageFiles") MultipartFile[] imageFiles
-    ) throws IOException {
-        User current = userService.getCurrentUser();
-        if (current == null) return "redirect:/login";
+ @PostMapping("/annunci")
+public String createAnnuncio(
+        @ModelAttribute Annuncio annuncio,
+        @RequestParam("imageFiles") MultipartFile[] imageFiles
+) throws IOException {
+    User current = userService.getCurrentUser();
+    if (current == null) return "redirect:/login";
 
-        // set the owner
-        annuncio.setOwner(current);
+    // assegno l’owner prima del salvataggio
+    annuncio.setOwner(current);
 
-        // process images
-        List<ImageEntity> images = new ArrayList<>();
-        for (MultipartFile file : imageFiles) {
-            if (!file.isEmpty()) {
-                Path target = Paths
-                    .get("src/main/resources/static/images/")
-                    .resolve(file.getOriginalFilename());
-                Files.copy(file.getInputStream(),
-                           target,
-                           StandardCopyOption.REPLACE_EXISTING);
-                images.add(new ImageEntity(file.getOriginalFilename()));
-            }
+    // process images
+    List<ImageEntity> images = new ArrayList<>();
+    for (MultipartFile file : imageFiles) {
+        if (!file.isEmpty()) {
+            Path target = Paths
+                .get("src/main/resources/static/images/")
+                .resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(),
+                       target,
+                       StandardCopyOption.REPLACE_EXISTING);
+            images.add(new ImageEntity(file.getOriginalFilename()));
         }
-        annuncio.setImages(images);
-
-        annuncioService.save(annuncio);
-        return "redirect:/annunci/" + annuncio.getId();
     }
+    annuncio.setImages(images);
+
+    annuncioService.save(annuncio);
+    return "redirect:/annunci/" + annuncio.getId();
+}
+
 
     // --- edit form & handler ---
 
@@ -179,6 +178,7 @@ public class AnnuncioController {
         return "user/annuncio-form";
     }
 
+    // --- edit form & handler ---
     @PostMapping("/annunci/{id}")
     public String updateAnnuncio(
             @PathVariable Long id,
@@ -191,12 +191,15 @@ public class AnnuncioController {
         Annuncio existing = annuncioService.findById(id);
         if (existing == null) return "error";
 
-        // copy editable fields
+        // (ri)assegno l’owner per sicurezza
+        existing.setOwner(current);
+
+        // copio i campi modificabili
         existing.setTitle(annuncio.getTitle());
         existing.setPrice(annuncio.getPrice());
         existing.setCategoria(annuncio.getCategoria());
 
-        // replace images
+        // sostituisco le immagini
         List<ImageEntity> images = new ArrayList<>();
         for (MultipartFile file : imageFiles) {
             if (!file.isEmpty()) {
@@ -204,8 +207,8 @@ public class AnnuncioController {
                     .get("src/main/resources/static/images/")
                     .resolve(file.getOriginalFilename());
                 Files.copy(file.getInputStream(),
-                           target,
-                           StandardCopyOption.REPLACE_EXISTING);
+                        target,
+                        StandardCopyOption.REPLACE_EXISTING);
                 images.add(new ImageEntity(file.getOriginalFilename()));
             }
         }
@@ -214,8 +217,4 @@ public class AnnuncioController {
         annuncioService.save(existing);
         return "redirect:/annunci/" + existing.getId();
     }
-}
-ice.delete(a);                       // aggiungi metodo delete nel service
-            return "redirect:/user/annunci";
-        }
 }

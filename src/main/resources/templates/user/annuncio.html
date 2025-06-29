@@ -43,9 +43,9 @@
           >
             <div th:each="img : ${annuncio.images}" class="image-item">
               <img
-                th:src="${img.name}"
-                th:alt="Foto di [[${annuncio.title}]]"
-                class="annuncio-img"
+              th:src="${img.name}"
+              th:alt="'Foto di ' + ${annuncio.title}"
+              class="annuncio-img"/>
               />
             </div>
           </div>

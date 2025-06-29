@@ -1,94 +1,104 @@
-/* 1) Scope generale SOLO all’interno del login */
-.login-body {
+/* login.css */
+
+/* 1. Layout di base ---------------------------------------------------- */
+body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;      /* body full-height */
+  min-height: 100vh;
+  background: #f7f7f7;           /* grigio very-light */
+  font-family: 'Open Sans', sans-serif;
 }
 
-/* 2) L’area centrale del login prende tutto lo spazio rimanente */
-.login-page {
-  flex: 1;                /* tra header e footer */
+/* contenitore centrale (tutto ciò che NON è header/footer) */
+.login-wrapper {
+  flex: 1;                       /* occupa spazio restante */
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: #f2f2f2;
-  padding: 2rem 0;
+  align-items: center;
+  padding: 2rem 1rem;
 }
 
-/* 3) Reset box-sizing e margin/padding SOLO qui */
-.login-page * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* 4) Stili del contenitore bianco */
-.login-container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* 2. Box del form ------------------------------------------------------ */
+.login-box {
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 5) Stili del form */
-.login-form h2 {
-  margin-bottom: 1rem;
+/* titolo */
+.login-box h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   color: #333;
 }
-.input-group {
-  margin-bottom: 1rem;
-}
-.input-group label {
+
+/* 3. Campi ------------------------------------------------------------- */
+.login-box label {
   display: block;
-  margin-bottom: 0.25rem;
-  color: #555;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: #444;
 }
-.input-group input {
+
+.login-box input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.55rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
 }
-button[type="submit"] {
+
+.login-box input:focus {
+  outline: none;
+  border-color: #0066cc;
+}
+
+/* spazio fra i gruppi */
+.login-box .form-group {
+  margin-bottom: 1.1rem;
+}
+
+/* 4. Pulsante ---------------------------------------------------------- */
+.login-box button[type="submit"] {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+  padding: 0.65rem 0;
   border: none;
   border-radius: 4px;
+  background: #0066cc;
   color: #fff;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background 0.2s;
 }
-button[type="submit"]:hover {
-  background-color: #0056b3;
+
+.login-box button[type="submit"]:hover {
+  background: #0057ad;
 }
-.error {
-  margin-top: 0.5rem;
-  color: #c00;
+
+/* 5. Messaggi di errore / link ---------------------------------------- */
+.login-box .error-msg {
+  color: #c0392b;
+  margin-bottom: 1rem;
   text-align: center;
-  font-size: 0.9rem;
 }
-.success {
-  margin-top: 0.5rem;
-  color: #080;
+
+.login-box .register-prompt {
+  margin-top: 1.25rem;
   text-align: center;
   font-size: 0.9rem;
 }
 
-.register-prompt {
-  margin-top: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #555;
-}
-.register-prompt .register-link {
-  color: #007bff;
+.login-box .register-link {
+  color: #0066cc;
   text-decoration: none;
 }
-.register-prompt .register-link:hover {
+
+.login-box .register-link:hover {
   text-decoration: underline;
 }

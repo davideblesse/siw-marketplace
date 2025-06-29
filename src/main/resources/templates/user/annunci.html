@@ -17,7 +17,7 @@
           <div class="navbar-links-group">
             <a th:href="@{/}" class="navbar-link">Home</a>
             <a th:href="@{/user/annunci}" class="navbar-link active">Annunci</a>
-            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link">Profilo</a>
+            <a th:href="@{/user/{id}(id=${user.id})}" class="navbar-link">Profilo</a>
             <form th:action="@{/logout}" method="post">
               <input
                 type="hidden"
@@ -94,12 +94,11 @@
             <p class="annuncio-price" th:text="${annuncio.price} + ' €'">
               0,00 €
             </p>
-            <a
-              class="view-details-link"
-              th:href="@{'/user/annunci/' + ${annuncio.id}}"
-            >
-              Dettagli
-            </a>
+              <a
+                class="view-details-link"
+                th:href="@{/user/annunci/{id}(id=${annuncio.id})}">
+                Dettagli
+              </a>
           </div>
         </div>
       </div>

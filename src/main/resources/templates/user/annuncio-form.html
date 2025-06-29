@@ -31,52 +31,85 @@
     </header>
 
     <main>
-      <h1
-        th:text="${annuncio.id == null} ? 'Nuovo Annuncio' : 'Modifica Annuncio'"
-      ></h1>
+      <h1 th:text="${annuncio.id} == null ? 'Nuovo Annuncio' : 'Modifica Annuncio'"></h1>
 
-      <form
-        th:action="@{${annuncio.id} == null ? '/annunci' : '/annunci/' + ${annuncio.id}}"
-        th:object="${annuncio}"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        <!-- only include the hidden id on edit -->
-        <input type="hidden" th:if="${annuncio.id != null}" th:field="*{id}" />
+      <!-- FORM CREAZIONE -->
+      <div th:if="${annuncio.id} == null">
+        <form
+          th:action="@{/annunci}"
+          th:object="${annuncio}"
+          method="post"
+          enctype="multipart/form-data">
 
-        <label>
-          Titolo:
-          <input type="text" th:field="*{title}" /> </label
-        ><br />
+          <input type="hidden"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}" />
 
-        <label>
-          Prezzo:
-          <input type="number" th:field="*{price}" /> </label
-        ><br />
+          <label>
+            Titolo: <input type="text" th:field="*{title}" />
+          </label><br/>
 
-        <label>
-          Categoria:
-          <select th:field="*{categoria}">
-            <option
-              th:each="c : ${allCats}"
-              th:value="${c}"
-              th:text="${c}"
-            ></option>
-          </select> </label
-        ><br />
+          <label>
+            Prezzo: <input type="number" th:field="*{price}" />
+          </label><br/>
 
-        <label>
-          Immagini:
-          <input
-            type="file"
-            name="imageFiles"
-            multiple
-            accept="image/*"
-          /> </label
-        ><br />
+          <label>
+            Categoria:
+            <select th:field="*{categoria}">
+              <option th:each="c : ${allCats}"
+                      th:value="${c}"
+                      th:text="${c}"></option>
+            </select>
+          </label><br/>
 
-        <button type="submit">Salva</button>
-      </form>
+          <label>
+            Immagini:
+            <input type="file" name="imageFiles" multiple accept="image/*" />
+          </label><br/>
+
+          <button type="submit">Salva</button>
+        </form>
+      </div>
+
+      <!-- FORM MODIFICA -->
+      <div th:if="${annuncio.id} != null">
+        <form
+          th:action="@{/annunci/{id}(id=${annuncio.id})}"
+          th:object="${annuncio}"
+          method="post"
+          enctype="multipart/form-data">
+
+          <input type="hidden"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}" />
+          <input type="hidden"
+                 th:field="*{id}" />
+
+          <label>
+            Titolo: <input type="text" th:field="*{title}" />
+          </label><br/>
+
+          <label>
+            Prezzo: <input type="number" th:field="*{price}" />
+          </label><br/>
+
+          <label>
+            Categoria:
+            <select th:field="*{categoria}">
+              <option th:each="c : ${allCats}"
+                      th:value="${c}"
+                      th:text="${c}"></option>
+            </select>
+          </label><br/>
+
+          <label>
+            Immagini:
+            <input type="file" name="imageFiles" multiple accept="image/*" />
+          </label><br/>
+
+          <button type="submit">Salva</button>
+        </form>
+      </div>
     </main>
 
     <footer class="footer">

@@ -12,6 +12,7 @@ public interface AnnuncioRepository extends JpaRepository<Annuncio, Long>{
     List<Annuncio> findByCategoria(Categoria categoria);
     List<Annuncio> findByCategoriaAndTitleContainingIgnoreCase(Categoria categoria, String name);
     List<Annuncio> findByTitleContainingIgnoreCase(String name);
+
     
 }
 

@@ -1,6 +1,4 @@
-/* register.css */
-
-/* 1. Struttura generale ----------------------------------------------- */
+/* 1. Layout di base ---------------------------------------------------- */
 body {
   display: flex;
   flex-direction: column;
@@ -17,32 +15,36 @@ body {
   padding: 2rem 1rem;
 }
 
+/* 2. Box del form ------------------------------------------------------ */
 .register-box {
   width: 100%;
-  max-width: 480px;
+  max-width: 420px;
   background: #ffffff;
   padding: 2.5rem 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 2. Titolo ------------------------------------------------------------ */
-.register-box h1 {
+.register-box .register-title {
   font-size: 1.6rem;
   margin-bottom: 1.5rem;
   text-align: center;
   color: #333;
 }
 
-/* 3. Campi e validazione ---------------------------------------------- */
-.register-box label {
+/* 3. Campi ------------------------------------------------------------- */
+.register-box .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.register-box .form-label {
   display: block;
   margin-bottom: 0.35rem;
   font-weight: 600;
   color: #444;
 }
 
-.register-box input {
+.register-box .form-input {
   width: 100%;
   padding: 0.55rem 0.75rem;
   border: 1px solid #ccc;
@@ -51,25 +53,13 @@ body {
   transition: border-color 0.2s;
 }
 
-.register-box input:focus {
+.register-box .form-input:focus {
   outline: none;
   border-color: #0066cc;
 }
 
-.register-box .form-group {
-  margin-bottom: 1.1rem;
-}
-
-/* messaggi di errore Thymeleaf */
-.register-box .field-error,
-.register-box .global-error {
-  color: #c0392b;
-  font-size: 0.85rem;
-  margin-top: 0.25rem;
-}
-
 /* 4. Pulsante ---------------------------------------------------------- */
-.register-box button[type="submit"] {
+.register-box .btn {
   width: 100%;
   padding: 0.65rem 0;
   border: none;
@@ -82,6 +72,28 @@ body {
   transition: background 0.2s;
 }
 
-.register-box button[type="submit"]:hover {
+.register-box .btn:hover {
   background: #0057ad;
+}
+
+/* 5. Messaggi di errore / link ---------------------------------------- */
+.register-box .form-error {
+  color: #c0392b;
+  font-size: 0.875rem;
+  margin-top: 0.3rem;
+}
+
+.register-box .login-prompt {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.register-box .login-link {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.register-box .login-link:hover {
+  text-decoration: underline;
 }

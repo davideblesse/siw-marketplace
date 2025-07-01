@@ -1,84 +1,86 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register</title>
-    <link rel="stylesheet" href="/css/register.css" />
-    <link rel="stylesheet" th:href="@{/css/layout.css}" />
-  </head>
-  <body>
-    <header class="header">
-      <nav class="navbar">
-        <div class="navbar-content">
-          <div class="navbar-links-group">
-            <h1 class="navbar-Title">SiwMarketplace</h1>
-          </div>
-          <div class="navbar-links-group">
-            <a th:href="@{/}" class="navbar-link">Home</a>
-            <a th:href="@{/annunci}" class="navbar-link">Annunci</a>
-            <a th:href="@{/login}" class="navbar-link active">Accedi</a>
-          </div>
-        </div>
-      </nav>
-    </header>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <link rel="stylesheet" href="/css/register.css" />
+  <link rel="stylesheet" th:href="@{/css/layout.css}" />
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="navbar-content">
+        <div class="navbar-links-group">
+          <h1 class="navbar-Title">SiwMarketplace</h1>
+        </div>
+        <div class="navbar-links-group">
+          <a th:href="@{/}" class="navbar-link">Home</a>
+          <a th:href="@{/annunci}" class="navbar-link">Annunci</a>
+          <a th:href="@{/login}" class="navbar-link active">Accedi</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
     <div class="register-wrapper">
       <div class="register-box">
-        <h1>Registrati</h1>
+        <h1 class="register-title">Registrati</h1>
+        <form th:action="@{/register}" method="post" th:object="${credentials}" class="register-form">
 
-        <form th:action="@{/register}" th:object="${credentials}" method="post">
+          <!-- Name -->
           <div class="form-group">
-            <label for="username">Username</label>
-            <input id="username" th:field="*{username}" />
-            <div
-              th:if="${#fields.hasErrors('username')}"
-              th:errors="*{username}"
-              class="field-error"
-            ></div>
+            <label th:for="*{user.name}" class="form-label">Nome</label>
+            <input type="text" th:field="*{user.name}" class="form-input" placeholder="Name">
+            <p th:if="${#fields.hasErrors('user.name')}" th:error="*{user.name}" class="form-error"></p>
+          </div>
+          <!-- Surname -->
+          <div class="form-group">
+            <label th:for="*{user.surname}" class="form-label">Surname</label>
+            <input type="text" class="form-input" th:field="*{user.surname}" placeholder="Surname">
+            <p th:if="${#fields.hasErrors('user.surname')}" th:errors="*{user.surname}" class="form-error"></p>
+          </div>
+          <!-- Email -->
+          <div class="form-group">
+            <label th:for="*{user.email}" class="form-label">Email</label>
+            <input type="text" class="form-input" th:field="*{user.email}" placeholder="Email">
+            <p th:if="${#fields.hasErrors('user.email')}" class="form-error" th:errors="*{user.email}"></p>
           </div>
 
+          <!-- Username -->
           <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}" />
-            <div
-              th:if="${#fields.hasErrors('password')}"
-              th:errors="*{password}"
-              class="field-error"
-            ></div>
+            <label th:for="*{username}" class="form-label">Username</label>
+            <input type="text" class="form-input" th:field="*{username}" placeholder="Username">
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="form-error"></p>
           </div>
 
+          <!-- Password -->
           <div class="form-group">
-            <label for="name">Nome</label>
-            <input id="name" th:field="*{user.name}" />
+            <label th:for="*{password}" class="form label">Password</label>
+            <input type="password" class="form-input" th:field="*{password}" placeholder="Password">
+            <p th:if="${#fields.hasErrors('password')}" class="form-error" th:errors="*{password}"></p>
           </div>
 
-          <div class="form-group">
-            <label for="surname">Cognome</label>
-            <input id="surname" th:field="*{user.surname}" />
-          </div>
+          <button type="submit" class="btn">Submit</button>
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" th:field="*{user.email}" />
-          </div>
+          <!-- Login link -->
+          <p class="login-prompt">
+            <a href="/login" class="login-link">Hai già un account?</a>
+          </p>
 
-          <button type="submit">Registrati</button>
-
-          <!-- eventuali errori globali -->
-          <div
-            th:if="${#fields.hasGlobalErrors()}"
-            th:errors="*{__all__}"
-            class="global-error"
-          ></div>
         </form>
       </div>
     </div>
+  </main>
 
-    <footer class="footer">
-      <div class="footer-content">
-        <p>Siwmarketplace – Vendi e compra quello che vuoi</p>
-      </div>
-    </footer>
-  </body>
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Siwmarketplace – Vendi e compra quello che vuoi</p>
+    </div>
+  </footer>
+</body>
+
 </html>

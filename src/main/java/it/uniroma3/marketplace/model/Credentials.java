@@ -1,12 +1,13 @@
 package it.uniroma3.marketplace.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.persistence.CascadeType;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Credentials {
@@ -14,17 +15,22 @@ public class Credentials {
     public static final String ADMIN_ROLE = "ADMIN";
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue()
     private Long id;
-    @NotEmpty
+
+    @NotBlank
+    @Size(min=4, max=10)
     private String username;
-    @NotEmpty
+
+    @NotBlank
+    @Size(min=4)
     private String password;
 
     private String role;
 
     @OneToOne(cascade = CascadeType.ALL)  
-    private User user;
+    @Valid
+    private User user = new User();
 
     public Long getId() {
         return id;

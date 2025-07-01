@@ -8,16 +8,27 @@ services:
   - type: web
     name: marketplace-app
     runtime: docker
-    plan: free
-    region: frankfurt
     dockerContext: .
     dockerfilePath: Dockerfile
+    plan: free
+    region: frankfurt
 
     envVars:
-      - key: DATABASE_URL
+      # full JDBC URL (note the jdbc: prefix)
+      - key: SPRING_DATASOURCE_URL
+        value: "jdbc:postgresql://marketplace-db:5432/siwmarketplace"
+
+      # credentials come directly from the database Render just created
+      - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: marketplace-db
-          property: connectionString
+          property: user
 
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: marketplace-db
+          property: password
+
+      # keep Render from guessing the port
       - key: PORT
         value: "8080"

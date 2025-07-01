@@ -1,0 +1,34 @@
+# -----------------------------------------------------------
+# Deploy Spring-Boot (+Docker) + Postgres as a single Blueprint
+# -----------------------------------------------------------
+
+databases:
+  - name: marketplace-db            # Display name on the dashboard
+    databaseName: siwmarketplace    # Logical DB inside Postgres
+    user: postgres                  # Render will generate the password
+    plan: free                      # Free tier is fine for dev
+    region: frankfurt               # Match your app region
+
+services:
+  - type: web
+    name: marketplace-app
+    runtime: docker                 # Build from your Dockerfile
+    plan: free
+    region: frankfurt
+    dockerContext: .
+    dockerfilePath: Dockerfile
+
+    # Environment variables
+    envVars:
+      # Spring Boot auto-parses DATABASE_URL → DataSource, so we can
+      # leave application.properties untouched.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: marketplace-db
+          property: connectionString   # postgres://user:pass@host:port/db :contentReference[oaicite:0]{index=0}
+
+      # Optional: speed up Render’s port scan
+      - key: PORT
+        value: "8080"                  # container still listens on 8080 :contentReference[oaicite:1]{index=1}
+
+

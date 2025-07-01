@@ -1,34 +1,29 @@
-databases:
-  - name: marketplace-db
-    databaseName: siwmarketplace
-    plan: free
-    region: frankfurt
-
 services:
   - type: web
     name: marketplace-app
     runtime: docker
-    dockerContext: .
-    dockerfilePath: Dockerfile
     plan: free
     region: frankfurt
+    dockerContext: .
+    dockerfilePath: Dockerfile
 
     envVars:
-      # full JDBC URL (note the jdbc: prefix)
-      - key: SPRING_DATASOURCE_URL
-        value: "jdbc:postgresql://marketplace-db:5432/siwmarketplace"
+      # ① raw (non-SSL) URI inside Render's private network
+      - key: DATABASE_URL
+        fromDatabase:
+          name: marketplace-db
+          property: internalConnectionString 
 
-      # credentials come directly from the database Render just created
+      # ② credentials for HikariCP
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: marketplace-db
           property: user
-
       - key: SPRING_DATASOURCE_PASSWORD
         fromDatabase:
           name: marketplace-db
           property: password
 
-      # keep Render from guessing the port
+      # ③ keep Render from port-scanning
       - key: PORT
         value: "8080"

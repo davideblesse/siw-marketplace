@@ -30,6 +30,7 @@ INSERT INTO commento (id, user_id, annuncio_id, text, offer) VALUES (4, 2, 6, 'L
 
 -- credenziali
 INSERT INTO credentials (id, user_id, username, password, role) VALUES (1, 1, 'user', '$2a$12$5prWEhDvUP7OdU9cFa2/quN2spDBCBiKXyWTXXQyA1N2wkHZAh32S', 'DEFAULT');
+INSERT INTO credentials (id, user_id, username, password, role) VALUES (2, 2, 'admin', '$2a$12$r5E6fDdqaIIz2KxEMIQaF.vBZrC3WHZTK6F/51HdClPXJcUdM914W', 'ADMIN');
 
 -- relazioni many-to-many
 INSERT INTO annuncio_images (annuncio_id, images_id) VALUES (4, 1);

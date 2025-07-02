@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Il mio profilo</title>
+    <link rel="stylesheet" href="/css/annuncio-form.css" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+  </head>
+
+  <body>
+    <header class="header">
+      <nav class="navbar">
+        <div class="navbar-content">
+          <div class="navbar-links-group">
+            <h1 class="navbar-Title">SiwMarketplace</h1>
+          </div>
+          <div class="navbar-links-group">
+            <a th:href="@{/admin/annunci}" class="navbar-link">Home</a>
+            <a th:href="@{/admin/annunci}" class="navbar-link">Annunci</a>
+            <a th:href="@{'/admin/' + ${user.id}}" class="navbar-link active"
+              >Profilo</a
+            >
+            <form th:action="@{/logout}" method="post">
+              <button type="submit" class="navbar-link">Esci</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="annuncio-form-container">
+      <h1 th:text="${annuncio.id} == null ? 'Nuovo Annuncio' : 'Modifica Annuncio'"></h1>
+
+      <!-- FORM CREAZIONE -->
+      <div th:if="${annuncio.id} == null">
+        <form
+          th:action="@{/annunci}"
+          th:object="${annuncio}"
+          method="post"
+          enctype="multipart/form-data">
+
+          <label>
+            Titolo: <input type="text" th:field="*{title}" />
+          </label><br/>
+
+          <label>
+            Prezzo: <input type="number" th:field="*{price}" />
+          </label><br/>
+
+          <label>
+            Categoria:
+            <select th:field="*{categoria}">
+              <option th:each="c : ${allCats}"
+                      th:value="${c}"
+                      th:text="${c}"></option>
+            </select>
+          </label><br/>
+
+          <label>
+            Immagini:
+            <input type="file" name="imageFiles" multiple accept="image/*" />
+          </label><br/>
+
+          <button type="submit">Salva</button>
+        </form>
+      </div>
+
+      <!-- FORM MODIFICA -->
+      <div th:if="${annuncio.id} != null">
+        <form
+          th:action="@{/annunci/{id}(id=${annuncio.id})}"
+          th:object="${annuncio}"
+          method="post"
+          enctype="multipart/form-data">
+
+          <input type="hidden"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}" />
+          <input type="hidden"
+                 th:field="*{id}" />
+
+          <label>
+            Titolo: <input type="text" th:field="*{title}" />
+          </label><br/>
+
+          <label>
+            Prezzo: <input type="number" th:field="*{price}" />
+          </label><br/>
+
+          <label>
+            Categoria:
+            <select th:field="*{categoria}">
+              <option th:each="c : ${allCats}"
+                      th:value="${c}"
+                      th:text="${c}"></option>
+            </select>
+          </label><br/>
+
+          <label>
+            Immagini:
+            <input type="file" name="imageFiles" multiple accept="image/*" />
+          </label><br/>
+
+          <button type="submit">Salva</button>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Siwmarketplace - Vendi e compra quello che vuoi</p>
+      </div>
+    </footer>
+  </body>
+</html>

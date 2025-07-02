@@ -65,7 +65,6 @@ public class AnnuncioController {
             // nessun filtro
             annunci = annuncioService.findAll();
         }
-
         model.addAttribute("annunci", annunci);
         model.addAttribute("categorie", Categoria.values());
         model.addAttribute("categoriaSelezionata", categoria);
@@ -73,10 +72,9 @@ public class AnnuncioController {
         return "annunci";
     }
 
+/* Lista Pubblica per utente registrato */
 
-    // --- user’s own annunci list & detail ---
-
-    @GetMapping("/user/annunci")
+    @GetMapping({"/user/annunci"})
     public String listUserAnnunci(
             @RequestParam(required=false) Categoria categoria,
             @RequestParam(required=false) String nome,
@@ -110,6 +108,54 @@ public class AnnuncioController {
         return "user/annunci";
     }
 
+    @GetMapping({"/admin/annunci"})
+    public String listAdminAnnunci(
+            @RequestParam(required=false) Categoria categoria,
+            @RequestParam(required=false) String nome,
+            Model model) {
+
+        List<Annuncio> annunci;
+        User user = userService.getCurrentUser();
+
+        boolean hasNome      = nome != null && !nome.isBlank();
+        boolean hasCategoria = categoria != null;
+
+        if (hasNome && hasCategoria) {
+            // filtro con entrambi
+            annunci = annuncioService.findByCategoriaAndNome(categoria, nome);
+        } else if (hasNome) {
+            // solo per nome
+            annunci = annuncioService.findByNome(nome);
+        } else if (hasCategoria) {
+            // solo per categoria
+            annunci = annuncioService.findByCategoria(categoria);
+        } else {
+            // nessun filtro
+            annunci = annuncioService.findAll();
+        }
+
+        model.addAttribute("user", user);
+        model.addAttribute("annunci", annunci);
+        model.addAttribute("categorie", Categoria.values());
+        model.addAttribute("categoriaSelezionata", categoria);
+        model.addAttribute("nomeSelezionato", nome);
+        return "admin/annunci";
+    }
+
+    @GetMapping("/annunci/{id}")
+    public String showAnnuncio(@PathVariable Long id, Model model) {
+
+        Annuncio annuncio = annuncioService.findById(id);
+        if (annuncio == null) return "error";
+
+        // prendi i commenti già ordinati
+        List<Commento> commenti = commentoService.findByAnnuncioDesc(annuncio);
+
+        model.addAttribute("annuncio", annuncio);
+        model.addAttribute("commenti", commenti);
+        return "annuncio";
+    }
+
     @GetMapping("/user/annunci/{id}")
     public String showUserAnnuncio(@PathVariable Long id, Model model) {
         User current = userService.getCurrentUser();
@@ -125,6 +171,23 @@ public class AnnuncioController {
         model.addAttribute("annuncio", annuncio);
         model.addAttribute("commenti", commenti);
         return "user/annuncio";
+    }
+
+    @GetMapping("/admin/annunci/{id}")
+    public String showAdminAnnuncio(@PathVariable Long id, Model model) {
+        User current = userService.getCurrentUser();
+        if (current == null) return "redirect:/login";
+
+        Annuncio annuncio = annuncioService.findById(id);
+        if (annuncio == null) return "error";
+
+        // prendi i commenti già ordinati
+        List<Commento> commenti = commentoService.findByAnnuncioDesc(annuncio);
+
+        model.addAttribute("user", current);
+        model.addAttribute("annuncio", annuncio);
+        model.addAttribute("commenti", commenti);
+        return "admin/annuncio";
     }
 
     // --- delete ---
@@ -149,6 +212,17 @@ public class AnnuncioController {
         model.addAttribute("annuncio", new Annuncio());
         model.addAttribute("allCats", Categoria.values());
         return "user/annuncio-form";
+    }
+
+    @GetMapping("/admin/annunci/new")
+    public String newAdminAnnuncioForm(Model model) {
+        User current = userService.getCurrentUser();
+        if (current == null) return "redirect:/login";
+
+        model.addAttribute("user", current);
+        model.addAttribute("annuncio", new Annuncio());
+        model.addAttribute("allCats", Categoria.values());
+        return "admin/annuncio-form";
     }
 
  @PostMapping("/annunci")
@@ -196,6 +270,20 @@ public String createAnnuncio(
         model.addAttribute("annuncio", existing);
         model.addAttribute("allCats", Categoria.values());
         return "user/annuncio-form";
+    }
+
+    @GetMapping("/admin/annunci/{id}/edit")
+    public String editAdminAnnuncioForm(@PathVariable Long id, Model model) {
+        User current = userService.getCurrentUser();
+        if (current == null) return "redirect:/login";
+
+        Annuncio existing = annuncioService.findById(id);
+        if (existing == null) return "error";
+
+        model.addAttribute("user", current);
+        model.addAttribute("annuncio", existing);
+        model.addAttribute("allCats", Categoria.values());
+        return "admin/annuncio-form";
     }
 
 // --- edit form & handler ---

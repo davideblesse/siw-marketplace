@@ -1,140 +1,150 @@
 /* annunci.css */
 
-/* --- Form di filtraggio --- */
+/* Page wrapper */
+.annunci-page {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f5f5f5;
+  padding: 1rem;
+}
+
+/* Filter form */
 .filter-form {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .filter-form label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9rem;
+  flex: 1 0 100px;
+  align-self: center;
+  font-weight: 600;
 }
 
 .filter-form input[type="text"],
 .filter-form select {
   flex: 1 1 200px;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.filter-form input[type="text"]:focus,
-.filter-form select:focus {
-  border-color: #333;
 }
 
 .filter-form button {
   padding: 0.5rem 1rem;
-  font-family: 'Merriweather', serif;
-  font-size: 1rem;
-  background-color: #333;
+  background-color: #b71c1c;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  flex: 0 0 auto;
   transition: background-color 0.2s;
 }
 
 .filter-form button:hover {
-  background-color: #555;
+  background-color: #7f0000;
 }
 
-/* --- Contenitore principale degli annunci --- */
-.annunci {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
+/* Empty-state message */
 .annunci__empty {
-  font-family: 'Open Sans', sans-serif;
-  color: #666;
   text-align: center;
   font-style: italic;
-  margin-top: 2rem;
+  color: #777;
+  padding: 2rem 0;
 }
 
-/* --- Griglia di card --- */
+/* Grid of announcement cards */
 .annunci-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
-/* --- Card singola --- */
+/* Individual card */
 .annuncio-card {
-  background-color: #fafafa;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s;
 }
 
-.annuncio-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* --- Immagine di copertina --- */
+/* Image wrapper */
 .annuncio-cover-wrapper {
-  position: relative;
   width: 100%;
-  padding-bottom: 66.66%; /* 3:2 ratio */
-  background: #eee;
-  overflow: hidden;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
+  background: #e0e0e0;
 }
 
 .annuncio-cover-wrapper img {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* --- Sezione info --- */
+/* Card info */
 .annuncio-info {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .annuncio-title {
-  font-family: 'Merriweather', serif;
-  font-size: 1.2rem;
-  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
   color: #333;
 }
 
 .annuncio-price {
-  font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   font-weight: bold;
-  margin: 0 0 1rem;
-  color: #333;
+  margin-bottom: 0.75rem;
+  color: #b71c1c;
 }
 
+/* Action links/buttons */
 .view-details-link {
-  font-family: 'Open Sans', sans-serif;
+  margin-top: auto;
+  text-align: center;
+  display: block;
+  padding: 0.5rem 0;
+  background-color: #ef5350;
+  color: #fff;
+  border-radius: 4px;
   text-decoration: none;
-  font-weight: bold;
-  color: #ff8f00;
-  transition: color 0.2s;
+  transition: background-color 0.2s;
 }
 
 .view-details-link:hover {
-  color: #e57c00;
+  background-color: #c62828;
+}
+
+.delete-form {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.delete-button {
+  background: transparent;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-button:hover {
+  color: #fff;
+  background-color: #d32f2f;
+  border-color: #b71c1c;
 }

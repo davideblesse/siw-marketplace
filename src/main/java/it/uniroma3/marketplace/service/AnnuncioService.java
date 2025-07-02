@@ -52,4 +52,8 @@ public class AnnuncioService {
     public void deleteById(Long id) {
         this.annuncioRepo.deleteById(id);
     }
+
+    public List<Annuncio> findAllByOrderByPriceAsc(){
+        return this.annuncioRepo.findAllByOrderByPriceAsc();
+    }
 }

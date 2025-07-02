@@ -10,7 +10,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /workspace/target/*-SNAPSHOT.jar app.jar
 
-# *** NEW: create the directory Spring expects ***
+# *** create the directory Spring expects ***
 RUN mkdir -p /app/src/main/resources/static/images
 
 EXPOSE 8080

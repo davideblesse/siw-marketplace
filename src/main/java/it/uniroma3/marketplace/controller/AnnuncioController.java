@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.marketplace.costanti.Categoria;
 import it.uniroma3.marketplace.model.Annuncio;
 import it.uniroma3.marketplace.model.Commento;
+import static it.uniroma3.marketplace.model.Credentials.ADMIN_ROLE;
 import it.uniroma3.marketplace.model.ImageEntity;
 import it.uniroma3.marketplace.model.User;
 import it.uniroma3.marketplace.service.AnnuncioService;
@@ -291,7 +293,8 @@ public String createAnnuncio(
 public String updateAnnuncio(
         @PathVariable Long id,
         @ModelAttribute Annuncio annuncio,
-        @RequestParam("imageFiles") MultipartFile[] imageFiles
+        @RequestParam("imageFiles") MultipartFile[] imageFiles,
+        Authentication authentication
 ) throws IOException {
     User current = userService.getCurrentUser();
     if (current == null) return "redirect:/login";
@@ -323,6 +326,13 @@ public String updateAnnuncio(
     existing.setImages(images);
 
     annuncioService.save(existing);
-    return "redirect:/user/annunci/" + existing.getId();
+
+    boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(ADMIN_ROLE));
+
+    if (isAdmin) {
+        return "redirect:/admin/annunci/" + existing.getId();
+    } else {
+        return "redirect:/user/annunci/" + existing.getId();
+    }
 }
 }

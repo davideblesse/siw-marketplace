@@ -17,9 +17,9 @@
             <h1 class="navbar-Title">SiwMarketplace</h1>
           </div>
           <div class="navbar-links-group">
-            <a th:href="@{/user/annunci}" class="navbar-link">Home</a>
-            <a th:href="@{/user/annunci}" class="navbar-link active">Annunci</a>
-            <a th:href="@{'/user/' + ${user.id}}" class="navbar-link"
+            <a th:href="@{/admin/annunci}" class="navbar-link">Home</a>
+            <a th:href="@{/admin/annunci}" class="navbar-link active">Annunci</a>
+            <a th:href="@{'/admin/' + ${user.id}}" class="navbar-link"
               >Profilo</a
             >
             <form th:action="@{/logout}" method="post">
